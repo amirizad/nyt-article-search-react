@@ -1,13 +1,44 @@
 import React, { Component } from "react";
+import helpers from "./utils/helpers";
 
 export default class Saved extends Component {
   constructor() {
     super();
+    this.renderSaved = this.renderSaved.bind(this);    
     this.handleDelete = this.handleDelete.bind(this);
   }
 
+  componentWillMount(){
+    helpers.getSaved().then((data) => {
+      this.props.setSaved(data);
+    })    
+  }
+
+  renderSaved(){
+    return this.props.savedItems.map(
+      savedItem => 
+      (    
+        <div key={savedItem._id} className="article">
+          <p>
+            <span className="articleheader">{savedItem.headline.main}</span>
+          </p>
+          <p className="details">
+            <span>{Date(savedItem.pub_date).toString()}</span>
+          </p>
+          <p>
+            <a className="url" href= {savedItem.web_url} target="_blank">{savedItem.web_url} </a>
+          </p>
+          <hr />
+          <p>Saved On: <span className="saved"> {Date(savedItem.savedon).toString()} </span></p>
+          <p>Note: <span className="saved"> {savedItem.note} </span></p>
+          <button className="btn btn-danger savebtn">Remove</button>
+        </div>
+      )
+    );
+  }
+
   handleDelete() {
-    this.props.feedSeymour(this.props.data.food);
+    this.props.deleteArticle(id);
   }
 
   render() {
@@ -19,23 +50,7 @@ export default class Saved extends Component {
           </div>
           <div className="panel-body">
             <div id="searchresult">
-
-              <div className="article">
-                <p>
-                  <span className="articleheader">For Baby Boomers, Dismay, and Opportunity</span>
-                </p>
-                <p className="details">
-                  <span>Sun Jul 30 2017 14:21:41 GMT-0700 (Pacific Daylight Time)</span>
-                </p>
-                <p>
-                  <a className="url" href="https://www.nytimes.com/2017/07/30/opinion/for-baby-boomers-dismay-and-opportunity.html" target="_blank">https://www.nytimes.com/2017/07/30/opinion/for-baby-boomers-dismay-and-opportunity.html</a>
-                </p>
-                <hr />
-                <p>Saved On: <span className="saved">Sun Jul 30 2017 14:21:41 GMT-0700 (Pacific Daylight Time)</span></p>
-                <p>Note: <span className="saved">Something cool</span></p>
-                <button className="btn btn-danger savebtn">Remove</button>
-              </div>
-
+              {this.renderSaved()}
             </div>
           </div>
         </div>

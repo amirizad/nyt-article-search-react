@@ -4,32 +4,41 @@ export default class Query extends Component {
   constructor() {
     super();
     this.state = {
-      terms: {
+      childTerms: {
         term: "",
         syear: "",
         eyear: ""
-      }
+      },
+      changed: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(propertyName, event) {
-    const terms = this.state.terms;
-    terms[propertyName] = event.target.value;
-    this.setState({ terms: terms });
+    const childTerms = this.state.childTerms;
+    const newValue = event.target.value;
+
+    if(childTerms[propertyName] !== newValue){
+      childTerms[propertyName] = newValue;
+      this.setState({ childTerms: childTerms });
+      this.setState({ changed: true });
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.setTerm(this.state.terms);
-    this.setState({
-      terms: {
-        term: "",
-        syear: "",
-        eyear: ""
-      }
-    });
+    if (this.state.changed){
+      this.props.setTerm(this.state.childTerms);
+      this.setState({
+        // childTerms: {
+        //   term: "",
+        //   syear: "",
+        //   eyear: ""
+        // },
+        changed: false
+      });
+    }
   }
 
   render() {
@@ -44,7 +53,7 @@ export default class Query extends Component {
               <div className="form-group">
                 <label htmlFor="term">Search Term</label>
                 <input
-                  value={this.state.terms.term}
+                  value={this.state.childTerms.term}
                   onChange={this.handleChange.bind(this, 'term')}
                   type="text"
                   id="term"
@@ -56,7 +65,7 @@ export default class Query extends Component {
               <div className="form-group">
                 <label htmlFor="startyear">Start Year (Optional)</label>
                 <input
-                  value={this.state.terms.syear}
+                  value={this.state.childTerms.syear}
                   onChange={this.handleChange.bind(this, 'syear')}
                   type="number"
                   id="syear"
@@ -69,7 +78,7 @@ export default class Query extends Component {
               <div className="form-group">
                 <label htmlFor="endyear">End Year (Optional)</label>
                 <input
-                  value={this.state.terms.eyear}
+                  value={this.state.childTerms.eyear}
                   onChange={this.handleChange.bind(this, 'eyear')}
                   type="number"
                   id="eyear"

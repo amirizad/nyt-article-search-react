@@ -32,7 +32,7 @@ db.once("open", () => {
   console.log("Mongoose connection successful.");
 });
 
-app.get("/api/saved", function(req, res) {
+app.get("/api/saved", (req, res) => {
   Article.find({}, (error, doc) => {
     if (error) {
       res.send(error);
@@ -43,23 +43,31 @@ app.get("/api/saved", function(req, res) {
   });
 });
 
-app.post("/api/saved", function(req, res) {
+app.post("/api/saved", (req, res) => {
   Article.create({
+    a_id: req.body.id,
     title: req.body.title,
     date: req.body.date,
-    url: req.body.url
-  }, function(err) {
+    url: req.body.url,
+    note: req.body.note
+  }, (err) => {
     if (err) {
       console.log(err);
-    }
-    else {
-      res.send("Saved");
+    } else {
+      Article.find({}, (error, doc) => {
+        if (error) {
+          res.send(error);
+        }
+        else {
+          res.send(doc);
+        }
+      });
     }
   });
 });
 
-app.delete("/api/saved", function(req, res) {
-  Article.findByIdAndRemove(req.params.id, function(err) {
+app.delete("/api/saved", (req, res) => {
+  Article.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
       console.log(err);
     }
@@ -69,7 +77,7 @@ app.delete("/api/saved", function(req, res) {
   });
 });
 
-app.get("*", function(req, res) {
+app.get("*", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 

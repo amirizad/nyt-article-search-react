@@ -1,20 +1,59 @@
 import React, { Component } from "react";
+import { hashHistory } from 'react-router'
 
 import helpers from "./utils/helpers";
 import NavTab from "./NavTab";
 
 export default class Main extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { terms: {}, results: [], saved: [] };
     this.setTerm = this.setTerm.bind(this);
+    this.setResults = this.setResults.bind(this);
   }
 
   setTerm(terms) {
-    this.setState({ terms: terms });
+    this.setState({ terms: terms }, () => {
+      helpers.getArticles(this.state.terms).then((data) => {
+        this.setResults(data);
+      })
+    });
+  }
+
+  setResults(results) {
+    this.setState({ results: results });
+  }
+
+  setSaved(saved){
+    this.setState({ saved: saved });
+  }
+
+  saveArticle(id){
+    const currArticle = this.state.results.filter((item) => {return item._id == id});
+    
+  }
+
+  deleteArticle(id){
+
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentDidUpdate(){
   }
 
   render() {
+    const childrenWithProps = React.Children.map(this.props.children,
+     (child) => React.cloneElement(child, {
+       setTerm: this.setTerm.bind(this),
+       setSaved: this.setSaved.bind(this),
+       saveArticle: this.saveArticle.bind(this),
+       articles: this.state.results,
+       savedItems: this.state.saved
+     })
+    );
     return (
       <div className= "container">
         <div className="row">
@@ -31,7 +70,7 @@ export default class Main extends Component {
         </div>
 
         <div className="tab-content">
-          {this.props.children}
+          {childrenWithProps}
         </div>
 
       </div>
