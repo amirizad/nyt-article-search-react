@@ -3,20 +3,16 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
   a_id: {
-    type: String,
-    required: true
+    type: String
   },
   title: {
-    type: String,
-    required: true
+    type: String
   },
   date: {
-    type: String,
-    required: true
+    type: String
   },
   url: {
-    type: String,
-    required: true
+    type: String
   },
   note: {
     type: String

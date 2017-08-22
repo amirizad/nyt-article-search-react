@@ -9,9 +9,10 @@ export default class Main extends Component {
     super();
     this.state = { terms: {}, results: [], saved: [] };
     this.setTerm = this.setTerm.bind(this);
+    this.setSaved = this.setSaved.bind(this);
     this.setResults = this.setResults.bind(this);
   }
-
+  
   setTerm(terms) {
     this.setState({ terms: terms }, () => {
       helpers.getArticles(this.state.terms).then((data) => {
@@ -19,29 +20,31 @@ export default class Main extends Component {
       })
     });
   }
-
+  
   setResults(results) {
     this.setState({ results: results });
+  }
+  
+  componentWillMount(){
+    helpers.getSaved().then((doc) => {
+      if(doc.data){
+        this.setSaved(doc.data);      
+      }
+    })    
   }
 
   setSaved(saved){
     this.setState({ saved: saved });
   }
 
-  saveArticle(id){
-    const currArticle = this.state.results.filter((item) => {return item._id == id});
-    
+  saveArticle(item){
+    helpers.postSave(item).then((doc) => {
+      this.setSaved(doc.data);
+    })
   }
 
   deleteArticle(id){
 
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentDidUpdate(){
   }
 
   render() {

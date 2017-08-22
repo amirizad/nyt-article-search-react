@@ -38,18 +38,20 @@ app.get("/api/saved", (req, res) => {
       res.send(error);
     }
     else {
+      console.log(doc);
       res.send(doc);
     }
   });
 });
 
 app.post("/api/saved", (req, res) => {
+  const article = req.body.article;
   Article.create({
-    a_id: req.body.id,
-    title: req.body.title,
-    date: req.body.date,
-    url: req.body.url,
-    note: req.body.note
+    a_id: article.id,
+    title: article.title,
+    date: article.date,
+    url: article.url,
+    note: article.note
   }, (err) => {
     if (err) {
       console.log(err);

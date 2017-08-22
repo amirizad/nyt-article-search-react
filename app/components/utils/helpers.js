@@ -9,7 +9,17 @@ const helper = {
     apiURL += frm.syear ? '&begin_date=' + frm.syear  + '0101': '';
     apiURL += frm.eyear ? '&end_date=' +  + frm.eyear +'1231' : '';
     return axios.get(apiURL).then((result) => {
-      const articles = result.data.response.docs;
+      let articles = result.data.response.docs;
+      articles = articles.map(article => {
+        const newArticle = {
+          a_id: article._id,
+          title: article.headline.main,
+          date: new Date(article.pub_date).toString(),
+          url: article.web_url,
+          note: ''
+        };
+        return newArticle;
+      })
       if (articles.length > 5) {
         return articles.slice(0, 5);
       }

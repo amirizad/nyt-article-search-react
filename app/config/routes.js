@@ -1,9 +1,3 @@
-// import React from "react";
-// import router from "react-router";
-// const Route = router.Route;
-// const Router = router.Router;
-// let hashHistory = router.hashHistory;
-// const IndexRoute = router.IndexRoute;
 import React from 'react'
 import { render } from 'react-dom'
 import { hashHistory, Router, Route, IndexRoute } from 'react-router'

@@ -4,15 +4,11 @@ import helpers from "./utils/helpers";
 export default class Saved extends Component {
   constructor() {
     super();
+    this.state = { saved: [] };
     this.renderSaved = this.renderSaved.bind(this);    
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  componentWillMount(){
-    helpers.getSaved().then((data) => {
-      this.props.setSaved(data);
-    })    
-  }
 
   renderSaved(){
     return this.props.savedItems.map(
@@ -20,13 +16,13 @@ export default class Saved extends Component {
       (    
         <div key={savedItem._id} className="article">
           <p>
-            <span className="articleheader">{savedItem.headline.main}</span>
-          </p>
-          <p className="details">
-            <span>{Date(savedItem.pub_date).toString()}</span>
+            <span className="articleheader">{savedItem.title}</span>
           </p>
           <p>
-            <a className="url" href= {savedItem.web_url} target="_blank">{savedItem.web_url} </a>
+            <span className="date">{Date(savedItem.date).toString()}</span>
+          </p>
+          <p>
+            <a className="url" href= {savedItem.url} target="_blank">{savedItem.url} </a>
           </p>
           <hr />
           <p>Saved On: <span className="saved"> {Date(savedItem.savedon).toString()} </span></p>
