@@ -4,8 +4,6 @@ import { Link, IndexLink } from 'react-router';
 
 export default class Tab extends Component {
 
-
-
   render() {
     
     // determine if the route is active, router.isActive function 

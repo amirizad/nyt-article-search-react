@@ -15,9 +15,8 @@ export default class Results extends Component {
 
   handleSave(id, event) {
     event.preventDefault();
-    const _id = id;
     const _item = this.state.items.filter(
-      item => item.a_id === _id
+      item => item.a_id === id
     )
     this.props.saveArticle(_item[0]);
   }
@@ -34,7 +33,7 @@ export default class Results extends Component {
   }
 
   renderArticles() {
-    return this.state.items.map(
+    return this.props.articles.map(
       articleItem => 
       (
         <div key={articleItem.a_id} className="article">

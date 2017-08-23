@@ -31,13 +31,9 @@ export default class Query extends Component {
     if (this.state.changed){
       this.props.setTerm(this.state.childTerms);
       this.setState({
-        // childTerms: {
-        //   term: "",
-        //   syear: "",
-        //   eyear: ""
-        // },
         changed: false
       });
+      this.props.history.pushState(null, 'results');
     }
   }
 

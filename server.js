@@ -47,7 +47,7 @@ app.get("/api/saved", (req, res) => {
 app.post("/api/saved", (req, res) => {
   const article = req.body.article;
   Article.create({
-    a_id: article.id,
+    a_id: article.a_id,
     title: article.title,
     date: article.date,
     url: article.url,
@@ -68,14 +68,20 @@ app.post("/api/saved", (req, res) => {
   });
 });
 
-app.delete("/api/saved", (req, res) => {
+app.delete("/api/saved/:id", (req, res) => {
   Article.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
       console.log(err);
-    }
-    else {
-      res.send("Deleted");
-    }
+    } else {
+      Article.find({}, (error, doc) => {
+        if (error) {
+          res.send(error);
+        }
+        else {
+          res.send(doc);
+        }
+      });
+    };
   });
 });
 

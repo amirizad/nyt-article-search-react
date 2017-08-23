@@ -11,7 +11,7 @@ export default (
  <Router history={hashHistory}>
     <Route path="/" component={Main}>
 
-      <Route path="query" component={Query} />
+      <Route exact path="query" component={Query} />
       <Route path="results" component={Results} />
       <Route path="saved" component={Saved} />
 

@@ -2,7 +2,6 @@ const axios = require("axios");
 
 const helper = {
   getArticles: (frm) => {
-    console.log(frm);
     let apiURL = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?';
     apiURL += 'api-key=1759bbf8acf24f13a254a004a1d3cbc3';
     apiURL += '&fl=_id,web_url,headline,pub_date&q=' + frm.term;
@@ -35,12 +34,8 @@ const helper = {
     return axios.post("/api/saved", { article });
   },
 
-  deleteSave: (id) => {
-    return axios.delete("/api/saved", {
-      params: {
-        id: id
-      }
-    });
+  deleteSave: (articleID) => {
+    return axios.delete(`/api/saved/${articleID}`)
   }
 }
 
