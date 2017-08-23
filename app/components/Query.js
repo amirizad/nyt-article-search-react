@@ -33,7 +33,7 @@ export default class Query extends Component {
       this.setState({
         changed: false
       });
-      this.props.history.pushState(null, 'results');
+      //this.props.history.pushState(null, 'results');
     }
   }
 
